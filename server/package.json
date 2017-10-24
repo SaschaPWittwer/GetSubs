@@ -1,0 +1,17 @@
+{
+  "name": "getsubs",
+  "version": "0.0.1",
+  "description": "RestApi backend for getsubs app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "restify": "~6.2.3",
+    "mysql": "~2.15.0",
+    "dotenv": "~4.0.0",
+    "fs": "~0.0.1-security"
+  },
+  "author": "Sascha Wittwer",
+  "license": "ISC"
+}
