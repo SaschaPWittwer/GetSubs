@@ -1,15 +1,8 @@
-var mysql = require("mysql");
-
-var connection = mysql.createConnection({
-    host: process.env.GETSUB_MYSQL_HOST,
-    port: process.env.GETSUB_MYSQL_PORT,
-    user: process.env.GETSUB_MYSQL_USER,
-    password: process.env.GETSUB_MYSQL_PW,
-    database: process.env.GETSUB_MYSQL_DB
-});
-
 function get(req, res, next){
-    connection.query("SELECT * FROM `Directory`", function(err, results) {
+    req.connection.query("SELECT * FROM `Directory`", function(err, results) {
+        req.connection.end(function(err){
+            console.log("Connection closed");
+        });
         if (err){
             console.log(err);
         }
@@ -19,20 +12,30 @@ function get(req, res, next){
                 console.log(row);
                 payload.push(row);
             }, this);
-            connection.end(function(err){
-                console.log("Connection closed");
-            });
-
-            res.send(200, {directories: payload});
+           
+            res.json(200, {directories: payload});
         }
     });
 }
 
-function put(req, res, next) {
-    // todo implement
+function post(req, res, next) {
+    req.connection.query("INSERT INTO Directory SET ?", req.body.directory, function(err, results) {
+        req.connection.end();
+        if (err){
+            console.log("Error", req.body);
+        }
+        else{
+            console.log("Object inserted with id: ", results.insertedId);
+            res.send(201);
+        }
+    });
 }
 
 exports.register = function(restifyServer) {
     restifyServer.get("/directories", get);
-    restifyServer.put("/directories", put);
+    restifyServer.post("/directories", post);
+    restifyServer.opts("/directories", function(req, res, next){
+        console.log(req);
+        res.send(200);
+    });
 }
