@@ -7,11 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "restify": "~6.2.3",
-    "mysql": "~2.15.0",
+    "restify": "~6.3.2",
     "dotenv": "~4.0.0",
     "fs": "~0.0.1-security",
-    "restify-cors-middleware": "^1.0.1"
+    "sequelize": "~4.22.8",
+    "mysql2": "~1.5.1"
+  },
+  "devDependencies": {
+    "sqlite3": "~3.1.13"
   },
   "author": "Sascha Wittwer",
   "license": "ISC"

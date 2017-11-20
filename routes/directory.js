@@ -1,34 +1,15 @@
+var { Directory } = require("../database/schema.js");
+
 function get(req, res, next){
-    req.connection.query("SELECT * FROM `Directory`", function(err, results) {
-        req.connection.end(function(err){
-            console.log("Connection closed");
-        });
-        if (err){
-            console.log(err);
-        }
-        else{
-            var payload = [];
-            results.forEach(function(row) {
-                console.log(row);
-                payload.push(row);
-            }, this);
-           
-            res.json(200, {directories: payload});
-        }
-    });
+    Directory.findAll().then(directories => {
+        res.json(200, { directories: directories });    
+    })
 }
 
 function post(req, res, next) {
-    req.connection.query("INSERT INTO Directory SET ?", req.body.directory, function(err, results) {
-        req.connection.end();
-        if (err){
-            console.log("Error", req.body);
-        }
-        else{
-            console.log("Object inserted with id: ", results.insertedId);
-            res.send(201);
-        }
-    });
+    Directory.create(req.body.directory).then(directory => {
+        res.json(200, { directories: directory });
+    })
 }
 
 exports.register = function(restifyServer) {
