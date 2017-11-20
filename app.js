@@ -2,11 +2,12 @@ require("dotenv").config();
 require("./database/schema.js").bootstrap();
 var restify = require("restify");
 var directoryRoute = require("./routes/directory.js");
+var authRoute = require("./routes/authenticate.js");
 
 
 // Bootstrap server with routes (controllers for REST calls)
 var server = restify.createServer({
-    name: 'api'
+    name: 'GetSub backend'
 });
 
 // Use body parser
@@ -23,11 +24,11 @@ server.use(function(req, res, next){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Request-Method", "POST, PUT, GET");
     res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    console.log('connection opened')
     next();
 });
 
 // Add routes
+// authRoute.register(server);
 directoryRoute.register(server);
 
 // Start server

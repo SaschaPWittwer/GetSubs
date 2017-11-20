@@ -18,10 +18,23 @@ var Video = sequelize.define("video", {
     hasSubs: Sequelize.BOOLEAN
 });
 
+var User = sequelize.define("user", {
+    name: Sequelize.STRING,
+    password: Sequelize.STRING
+})
+
+var Session = sequelize.define("session", {
+    token: Sequelize.STRING
+})
+
+Session.belongsTo(User);
+
 Video.belongsTo(Directory);
 
 exports.Directory = Directory;
 exports.Video = Video;
+exports.User = User;
+exports.Session = Session;
 exports.bootstrap = function() {
     sequelize.sync({ force: true });
 }
